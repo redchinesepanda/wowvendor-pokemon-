@@ -2,8 +2,22 @@
 
 namespace wowpokemon\lib\tool;
 
+/**
+ * 
+ * Curl requests tool
+ * 
+ */
+
 class ToolCurl
 {
+	/**
+	 * 
+	 * Obtains response from specified url
+	 * 
+	 * @return string
+	 * 
+	 */
+
 	public static function get_response( $url = '' ) : string
 	{
 		if ( ! empty( $url ) )
@@ -13,14 +27,6 @@ class ToolCurl
 			curl_setopt( $curl, CURLOPT_RETURNTRANSFER, true );
 	
 			$response = curl_exec( $curl );
-	
-			// WOWPokemonDebug::debug( [
-			// 	'GutenbergPokemon' => 'get_pokemon_type_json',
-	
-			// 	'response' => $response,
-	
-			// 	'curl_error' => curl_error( $curl ),
-			// ] );
 	
 			curl_close( $curl );
 	

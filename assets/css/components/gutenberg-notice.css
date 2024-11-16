@@ -1,3 +1,5 @@
+/* Background */
+
 div.notice-box {
 	border: 1px LightSkyBlue solid;
 	border-left-width: 5px;
@@ -5,13 +7,39 @@ div.notice-box {
 	margin: 30px;
 }
 
-div.notice-box.notice-success {
-	border-color: MediumSpringGreen;
+div.notice-box.notice-1 {
+	border-color:antiquewhite;
 }
 
-div.notice-box.notice-danger {
-	border-color: LightCoral;
+div.notice-box.notice-2 {
+	border-color:aqua;
 }
+
+div.notice-box.notice-3 {
+	border-color:aquamarine;
+}
+
+div.notice-box.notice-4 {
+	border-color:azure;
+}
+
+div.notice-box.notice-5 {
+	border-color:beige;
+}
+div.notice-box.notice-6 {
+	border-color:bisque;
+}
+div.notice-box.notice-7 {
+	border-color:black;
+}
+div.notice-box.notice-8 {
+	border-color:blanchedalmond;
+}
+div.notice-box.notice-9 {
+	border-color:blue;
+}
+
+/* Typography, Position */
 
 div.notice-box h4 {
 	font-size: 18px;

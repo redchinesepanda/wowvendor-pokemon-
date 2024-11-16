@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link              https://wowvendor.com/
  * @since             1.0.0
@@ -44,7 +45,16 @@ class WOWPokemon {
 
 	const FILE = \WOW_POKEMON_FILE;
 
-	public static function register()
+	/**
+	 *  
+	 * Initialization global
+	 *
+	 * @since      1.0.0
+ 	 * @package    wowvwndor-pokemon-gutenberg
+	 *
+	 */
+
+	public static function register() : void
 	{
 		register_activation_hook( __FILE__, '__return_true' );
 

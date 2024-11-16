@@ -16,7 +16,13 @@ use \wowpokemon\lib\tool\ToolMain;
 
 class WOWPokemonMain
 {
-	public static function register()
+	/**
+	 * 
+	 * Register frontend componenst on Wordpress hook 'wp' and register functions all or wp-admin only
+	 * 
+	 */
+	
+	public static function register() : void
 	{
 		$handler = new self();
 		
@@ -25,24 +31,40 @@ class WOWPokemonMain
 		self::register_functions();
 	}
 
-	public static function register_functions()
-    {
-		ToolMain::register_functions();
+	/**
+     * 
+     * Register functions all or wp-admin only
+     * 
+     */
 
+	public static function register_functions() : void
+    {
 		GutenbergMain::register_functions();
 
 		if ( self::check_admin() )
 		{
-			ToolMain::register_functions_admin();
 		}
 	}
 
-	public static function register_components()
+	/**
+     * 
+     * Register frontend componenst
+     * 
+     * @return bool
+	 */
+
+	public static function register_components() : void
 	{
-		GutenbergMain::register();
 	}
 
-	public static function check_admin()
+	/**
+     * 
+     * Check if current context is admin
+     * 
+     * @return bool
+	 */
+
+	public static function check_admin() : bool
 	{
 		return is_admin();
 	}

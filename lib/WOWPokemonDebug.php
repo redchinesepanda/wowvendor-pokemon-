@@ -4,7 +4,14 @@ namespace wowpokemon\lib;
 
 class WOWPokemonDebug
 {
-    public static function check()
+    /**
+     *
+     * Check if current user can see debug information
+     *  
+     * @return boolean
+     */
+
+    public static function check() : bool
     {
         $permission = false;
 
@@ -21,7 +28,13 @@ class WOWPokemonDebug
         return $permission;
     }
 
-    public static function debug( $message )
+    /**
+     * 
+     * Outputs debug information
+     * 
+     */
+
+    public static function debug( $message ) : void
     {
         if ( self::check() )
         {
@@ -29,7 +42,13 @@ class WOWPokemonDebug
         }
     }
 
-    public static function die( $message )
+    /**
+     * 
+     * Outputs debug information and stops the scenario
+     * 
+     */
+
+    public static function die( $message ) : void
     {
         if ( self::check() )
         {

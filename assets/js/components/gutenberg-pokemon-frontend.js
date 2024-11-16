@@ -21,10 +21,6 @@ let WOWPokemonGutenbergFrontend = ( function()
 		
 						if ( gutenbergNotice != null )
 						{
-							console.log( parsed.data );
-
-							console.log( parsed.data.join( ', ' ) );
-
 							let gutenbergNoticeFooter = document.createElement( 'p' );
 
 							gutenbergNoticeFooter.innerHTML = parsed.data.join( ', ' );

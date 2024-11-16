@@ -5,7 +5,6 @@ wp.blocks.registerBlockType(
 	'wowvendor-gutenberg/gutenberg-notice-block',
 
 	{
-
 		// Block name visible to user
 
 		title: 'Notice',
@@ -22,9 +21,9 @@ wp.blocks.registerBlockType(
 
 		attributes: {
 
-			// Notice box type for loading the appropriate CSS class. Default class is 'default'.
+			// Notice box type for loading the appropriate CSS class. Default class is 'empty'.
 
-			type: { type: 'string', default: 'default' },
+			type: { type: 'string', default: 'empty' },
 
 			// Notice box title in h4 tag
 
@@ -55,8 +54,6 @@ wp.blocks.registerBlockType(
 					return el(
 						"option", {
 						key: index,
-
-						// value: option.url,
 
 						value: option.id,
 
@@ -113,13 +110,7 @@ wp.blocks.registerBlockType(
 						placeholder: 'Enter description here...'
 					}
 				)
-
-				// End return
-
 			);
-
-			// End edit()
-
 		},
 
 		// How our block renders on the frontend  
@@ -155,19 +146,7 @@ wp.blocks.registerBlockType(
 				),
 
 				contentElement
-
-				// el(
-				// 	wp.editor.RichText.Content,
-
-				// 	{
-				// 		tagName: 'p',
-
-				// 		value: props.attributes.content
-				// 	}
-				// )
-
-			); // End return
-
-		} // End save()
+			);
+		}
 	}
 );

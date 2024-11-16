@@ -10,20 +10,44 @@ use \wowpokemon\lib\tool\ToolEnqueue;
 
 use \wowpokemon\lib\tool\ToolCurl;
 
+/**
+ * 
+ * Class adds Gutenberg block, style in admin and front, scripts and ajax backend 
+ * 
+ */
+
 class GutenbergPokemon
 {
+	/**
+	 * 
+	 * Frontend CSS file list
+	 * 
+	 */
+
 	const CSS = [
         'gutenberg-block-pokemon' => [
             'path' => WOWPokemon::URL . '/assets/css/components/gutenberg-notice.css',
 
-            'ver'=> '1.2.1',
+            'ver'=> '1.0.0',
         ],
     ];
+
+	/**
+	 * 
+	 * Register frontend and admin style
+	 * 
+	 */
 
 	public static function register_style() : void
     {
 		ToolEnqueue::register_style( self::CSS );
     }
+
+	/**
+	 * 
+	 * Admin JS file list
+	 * 
+	 */
 
 	const JS_ADMIN = [
         'gutenberg-block-notice' => [
@@ -39,6 +63,12 @@ class GutenbergPokemon
 		],
     ];
 
+	/**
+	 * 
+	 * Frontend JS file list
+	 * 
+	 */
+
 	const JS_FRONTEND = [
         'gutenberg-block-notice-frontend' => [
 			'path' => WOWPokemon::URL . '/assets/js/components/gutenberg-pokemon-frontend.js',
@@ -47,6 +77,12 @@ class GutenbergPokemon
 		],
     ];
 
+	/**
+	 * 
+	 * Register admin scripts and localize data
+	 * 
+	 */
+
 	public static function register_script() : void
     {
 		ToolEnqueue::register_script( self::JS_ADMIN );
@@ -54,14 +90,13 @@ class GutenbergPokemon
 		ToolEnqueue::localize_script( self::get_localize_pokemon_type() );
     }
 
-	public static function register_script_ajax() : void
-    {
-		ToolEnqueue::register_script( self::JS_FRONTEND );
-
-		ToolEnqueue::localize_script( self::get_localize_ajax_general() );
-
-		ToolEnqueue::localize_script( self::get_localize_ajax_pokemon_settings() );
-    }
+	/**
+	 * 
+	 * Returns localized pokemon types for admin
+	 * 
+	 * @return array
+	 * 
+	 */
 
 	private static function get_localize_pokemon_type() : array
 	{
@@ -74,7 +109,30 @@ class GutenbergPokemon
 		];
 	}
 
-	private static function get_localize_ajax_general()
+	/**
+	 * 
+	 * Register frontend scripts and localize data
+	 * 
+	 */
+
+	public static function register_script_ajax() : void
+    {
+		ToolEnqueue::register_script( self::JS_FRONTEND );
+
+		ToolEnqueue::localize_script( self::get_localize_ajax_general() );
+
+		ToolEnqueue::localize_script( self::get_localize_ajax_pokemon_settings() );
+    }
+
+	/**
+	 * 
+	 * Returns localized ajax url for frontend
+	 * 
+	 * @return array
+	 * 
+	 */
+
+	private static function get_localize_ajax_general() : array
 	{
 		return [
 			'gutenberg-block-notice-frontend' => [
@@ -95,7 +153,15 @@ class GutenbergPokemon
 		'type' => 'type',
 	];
 
-	private static function get_localize_ajax_pokemon_settings()
+	/**
+	 * 
+	 * Returns localized ajax request settings for frontend
+	 * 
+	 * @return array
+	 * 
+	 */
+
+	private static function get_localize_ajax_pokemon_settings() : array
 	{
 		return [
 			'gutenberg-block-notice-frontend' => [
@@ -111,6 +177,14 @@ class GutenbergPokemon
 			],
 		];
 	}
+
+	/**
+	 * 
+	 * Register admin scripts and styles on WordPress 'enqueue_block_editor_assets' hook
+	 * Register frontend scripts and styles on WordPress 'wp_enqueue_scripts' hook
+	 * Register ajax action to retreive pokemons of specified type
+	 * 
+	 */
 
 	public static function register_functions() : void
     {
@@ -129,20 +203,18 @@ class GutenbergPokemon
 		add_action( sprintf( 'wp_ajax_nopriv_%s', self::ACTIONS[ 'get-pokemon' ] ), [ $handler, 'ajax_get_pokemon' ] );
     }
 
-	public static function register() : void
-    {
-        // self::get_pokemon_type();
-    }
+	/**
+	 * 
+	 * Parse id from given url by regexp
+	 * 
+	 * @param string $url commonly is API path
+	 * 
+	 * @return int
+	 */
 
 	private static function parse_id( string $url ) : int
 	{
 		$matches = [];
-
-		// WOWPokemonDebug::debug( [
-		// 	'GutenbergPokemon' => 'parse_id-1',
-
-		// 	'url' => $url,
-		// ] );
 
 		if ( preg_match( "/type\/(\d+)\/$/", $url, $matches ) )
 		{
@@ -151,6 +223,15 @@ class GutenbergPokemon
 
 		return 0;
 	}
+
+	/**
+	 * 
+	 * Parse pokemon type from given json decoded response item
+	 * 
+	 * @param array $url is decoded array item of json with 'name' and 'url' items
+	 * 
+	 * @return array
+	 */
 
 	private static function parse_pokemon_type( array $item ) : array
 	{
@@ -161,73 +242,65 @@ class GutenbergPokemon
 		];
 	}
 
+	/**
+	 * 
+	 * Get all pokemon avaible types response from API path
+	 * 
+	 */
+
+	private static function get_pokemon_type_response() : string
+	{
+		return ToolCurl::get_response( 'https://pokeapi.co/api/v2/type/' );
+	}
+	
+	/**
+	 * 
+	 * Parse pokemon type from curl response obtained from API path
+	 * 
+	 * @return array
+	 */
+
 	private static function get_pokemon_type() : array
 	{
 		$types = [];
 
 		$json = json_decode( self::get_pokemon_type_response(), JSON_OBJECT_AS_ARRAY );
-		
-		// WOWPokemonDebug::debug( [
-		// 	'GutenbergPokemon' => 'get_pokemon_type_json-1',
-
-		// 	'json' => $json,
-		// ] );
 
 		if ( ! empty( $json[ 'results' ] ) )
 		{
-			// WOWPokemonDebug::debug( [
-			// 	'GutenbergPokemon' => 'get_pokemon_type_json-2',
-	
-			// 	'results' => $json[ 'results' ],
-			// ] );
-
 			foreach ( $json[ 'results' ] as $item )
 			{
-				// $pokemon_item = self::parse_pokemon_type( $item );
-
-				// $pokemon = self::get_pokemon( $pokemon_item[ 'id' ] );
-
-				// WOWPokemonDebug::debug( [
-				// 	'GutenbergPokemon' => 'get_pokemon_type_json-3',
-
-				// 	'pokemon_item' => $pokemon_item,
-		
-				// 	'pokemon' => $pokemon,
-				// ] );
-
-				// $pokemon_item[ 'pokemon' ] = $pokemon;
-
-				// $types[] = $pokemon_item;
-				
 				$types[] = self::parse_pokemon_type( $item );
 			}
 		}
 
-		// WOWPokemonDebug::debug( [
-		// 	'GutenbergPokemon' => 'get_pokemon_type_json-4',
-
-		// 	'types' => $types,
-		// ] );
-
 		return $types;
 	}
 
+	/**
+	 * 
+	 * Parse pokemon type from curl response obtained from API path
+	 * 
+	 * @param array $item is json decoded array item  with 'pokemon' and 'name' items
+	 * 
+	 * @return string
+	 */
+
 	private static function parse_pokemon( array $item ) : string
 	{
-		// WOWPokemonDebug::debug( [
-		// 	'GutenbergPokemon' => 'parse_pokemon-1',
-
-		// 	'item' => $item,
-		// ] );
-
-		// return [
-		// 	'name' => $item[ 'pokemon' ][ 'name' ],
-		// ];
-		
 		return $item[ 'pokemon' ][ 'name' ];
 	}
+
+	/**
+	 * 
+	 * Get all pokemons of specified type
+	 * 
+	 * @param int $type is numeric type of pokemon in API
+	 * 
+	 * @return array
+	 */
 	
-	private static function get_pokemon( $type ) : array
+	private static function get_pokemon( int $type ) : array
 	{
 		$pokemons = [];
 
@@ -244,54 +317,33 @@ class GutenbergPokemon
 		return $pokemons;
 	}
 
-	private static function get_pokemon_type_response() : string
-	{
-		return ToolCurl::get_response( 'https://pokeapi.co/api/v2/type/' );
-	}
+	/**
+	 * 
+	 * Get all avaible pokemon of specified type response from API path
+	 * 
+	 */
 
 	private static function get_pokemon_response( int $type ) : string
 	{
-		// WOWPokemonDebug::debug( [
-		// 	'GutenbergPokemon' => 'get_pokemon_response-1',
-
-		// 	'type' => $type,
-
-		// 	'sprintf' => sprintf( 'https://pokeapi.co/api/v2/type/%d/', $type ),
-		// ] );
-
 		return ToolCurl::get_response( sprintf( 'https://pokeapi.co/api/v2/type/%d/', $type ) );
 	}
 
 	const NONCE = 'wow-pokemon-get';
 
-	/* 
-	 * Ajax buffer for frontend that makes curl request on API
+	/**
 	 * 
+	 * Ajax buffer for frontend that makes curl request on API
 	 * example args: /wp-admin/admin-ajax.php?action=wow-get-pokemon&type=1
+	 * 
      */
 
 	public static function ajax_get_pokemon() : void
 	{
-		// check_ajax_referer( self::NONCE );
-
 		$code = 0;
 
 		$status = 'success';
 		
 		$data = '';
-
-		// if ( ! empty( $_GET[ self::PAREMETERS[ 'type' ] ] ) && is_numeric( $_GET[ self::PAREMETERS[ 'type' ] ] ) )
-		// {
-		// 	$data = self::get_pokemon( $_GET[ self::PAREMETERS[ 'type' ] ] );
-		// }
-
-		// WOWPokemonDebug::debug( [
-		// 	'GutenbergPokemon' => 'ajax_get_pokemon-1',
-
-		// 	'type' => $_POST[ self::PAREMETERS[ 'type' ] ],
-
-		// 	'is_numeric' => is_numeric( $_POST[ self::PAREMETERS[ 'type' ] ] ),
-		// ] );
 
 		if ( ! empty( $_POST[ self::PAREMETERS[ 'type' ] ] ) && is_numeric( $_POST[ self::PAREMETERS[ 'type' ] ] ) )
 		{

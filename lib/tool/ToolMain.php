@@ -6,19 +6,15 @@ require_once( 'ToolEnqueue.php' );
 
 require_once( 'ToolCurl.php' );
 
+/**
+ * 
+ * Main Tool class
+ * 
+ */
+
 class ToolMain
 {
-    public static function register() : void
-    {
-    }
-
-    public static function register_functions() : void
-    {
-    }
-
-    public static function register_functions_admin() : void
-    {
-    }
+    
 }
 
 ?>
