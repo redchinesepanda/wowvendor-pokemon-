@@ -2,8 +2,8 @@
 Contributors: Wowvendow
 Donate link: https://wowvendor.com/
 ## Description
-This is first free module from Wowvendow  to organize Pokemons in Gutenberg
-demo: http://j910579e.beget.tech/sample-page/
+<p>This is first free module from Wowvendow  to organize Pokemons in Gutenberg</p>
+<p>demo: http://j910579e.beget.tech/sample-page/</p>
 ## Install
 1. Put plugin files in /public_html/wp-content/plugins/wow-pokemon/
 2. Activate plugin Wowvendor Pokemon Gutenberg
