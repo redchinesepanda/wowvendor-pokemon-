@@ -5,7 +5,7 @@ Donate link: https://wowvendor.com/
 This is first free module from Wowvendow  to organize Pokemons in Gutenberg
 ## Install
 1. Put plugin files in /public_html/wp-content/plugins/wow-pokemon/
-2. Activate plugin
+2. Activate plugin Wowvendor Pokemon Gutenberg
 3. Go to any page, open it in Gutenberg, add new block, search for "Notice"
 4. Choose a pokemon type or leave it with "Empty" value
 5. You may specify title and description for pokemon list
